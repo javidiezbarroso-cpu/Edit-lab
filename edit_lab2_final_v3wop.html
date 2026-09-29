@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDIT LAB</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f5f5;
+      color: #111;
+    }
+    header {
+      background: #111;
+      color: white;
+      padding: 22px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo { font-size: 28px; font-weight: 800; letter-spacing: 2px; }
+    nav a { color: white; text-decoration: none; margin-left: 24px; font-size: 14px; }
+    .hero {
+      min-height: 430px;
+      padding: 90px 7%;
+      display: flex;
+      align-items: center;
+      background: white;
+    }
+    .hero-content { max-width: 700px; }
+    .hero h1 { font-size: clamp(48px, 8vw, 88px); line-height: .95; margin-bottom: 25px; }
+    .hero p { font-size: 20px; color: #555; margin-bottom: 30px; }
+    .btn {
+      display: inline-block;
+      background: #111;
+      color: white;
+      padding: 15px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    section { padding: 70px 7%; }
+    .services-section { display: none; }
+    .services-section.visible { display: block; }
+    .section-title { font-size: 38px; margin-bottom: 35px; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: white;
+      padding: 28px;
+      border-radius: 14px;
+      min-height: 150px;
+      border: 1px solid #ddd;
+    }
+    .card h3 { margin-bottom: 12px; font-size: 21px; }
+    .card p { color: #666; line-height: 1.5; }
+    .form-box {
+      max-width: 750px;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+    }
+    label { display: block; margin: 18px 0 8px; font-weight: 700; }
+    input, textarea, select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font: inherit;
+    }
+    textarea { min-height: 130px; resize: vertical; }
+    button {
+      margin-top: 22px;
+      border: 0;
+      cursor: pointer;
+      background: #111;
+      color: white;
+      padding: 15px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+    footer {
+      background: #111;
+      color: #aaa;
+      padding: 30px 7%;
+      text-align: center;
+    }
+  
+
+.services-page {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #f5f5f5;
+  overflow-y: auto;
+}
+.services-page.visible { display: block; }
+.services-page-header {
+  background: #111;
+  color: white;
+  min-height: 76px;
+  padding: 18px 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.back-button {
+  border: 1px solid #555;
+  background: transparent;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0;
+}
+.services-page-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 65px 7%;
+}
+.eyebrow {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #777;
+  margin-bottom: 12px;
+}
+.services-page-content h2 {
+  font-size: clamp(42px, 6vw, 70px);
+  line-height: 1;
+  margin-bottom: 18px;
+}
+.services-intro {
+  color: #666;
+  font-size: 19px;
+  max-width: 650px;
+  margin-bottom: 45px;
+  line-height: 1.5;
+}
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.service-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.05);
+}
+.service-icon { font-size: 38px; margin-bottom: 18px; }
+.service-card h3 { font-size: 25px; margin-bottom: 16px; }
+.service-card ul { padding-left: 20px; color: #555; line-height: 1.8; }
+@media (max-width: 700px) {
+  .service-grid { grid-template-columns: 1fr; }
+  .services-page-header { padding: 16px 5%; }
+  .services-page-content { padding: 50px 5%; }
+}
+
+.packages-section {
+  background: #f5f5f5;
+}
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.package-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,.05);
+}
+.package-card h3 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+.package-card p {
+  color: #666;
+  font-size: 18px;
+}
+@media (max-width: 700px) {
+  .packages-grid { grid-template-columns: 1fr; }
+}
+
+
+.web-service-section {
+  background: #fff;
+}
+.web-service-card {
+  max-width: 700px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 18px;
+  padding: 35px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.05);
+}
+.web-service-card h2 {
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+.web-price {
+  font-size: 30px;
+  font-weight: 800;
+  margin: 12px 0 20px;
+}
+.web-service-card ul {
+  padding-left: 22px;
+  color: #555;
+  line-height: 1.8;
+}
+
+
+.info-section { padding: 70px 7%; background: #fff; }
+.info-section:nth-of-type(even) { background: #f5f5f5; }
+.steps-grid, .faq-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.faq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.step-card, .faq-card, .placeholder-box, .highlight-box {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 28px;
+}
+.step-card span { font-weight: 800; color: #777; }
+.step-card h3, .faq-card h3 { margin: 12px 0; }
+.step-card p, .faq-card p, .placeholder-box p, .highlight-box p, .contact-section p { color: #666; line-height: 1.6; }
+.placeholder-box { text-align: center; }
+.highlight-box { max-width: 700px; }
+.contact-section { text-align: center; }
+.contact-section .btn { margin-top: 22px; }
+@media (max-width: 700px) {
+  .steps-grid, .faq-grid { grid-template-columns: 1fr; }
+}
+
+
+.gallery-intro { color: #666; margin-top: -20px; margin-bottom: 35px; font-size: 18px; }
+.gallery-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px;
+}
+.edit-example {
+  background: white; border: 1px solid #ddd; border-radius: 18px;
+  padding: 18px; box-shadow: 0 8px 25px rgba(0,0,0,.05);
+}
+.edit-example h3 { margin: 18px 0 7px; font-size: 21px; }
+.edit-example p { color: #666; line-height: 1.5; }
+.fake-before, .fake-after {
+  height: 210px; border-radius: 12px; display: flex; flex-direction: column;
+  justify-content: space-between; padding: 12px; background: #e9e9e9;
+}
+.fake-after { background: #d8d8d8; }
+.fake-before span, .fake-after span {
+  align-self: flex-start; background: #111; color: white; padding: 6px 9px;
+  border-radius: 5px; font-size: 11px; font-weight: 800; letter-spacing: 1px;
+}
+.visual-placeholder { font-size: 55px; text-align: center; padding-bottom: 45px; }
+.portfolio-note {
+  margin-top: 30px; padding: 22px; border: 1px dashed #aaa; border-radius: 14px;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.portfolio-note span { color: #666; }
+@media (max-width: 700px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+}
+
+
+.gallery-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+
+.portfolio-section {
+  background: #0d0f12;
+  color: white;
+  padding: 85px 5%;
+}
+.portfolio-heading {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 45px;
+}
+.portfolio-heading > p {
+  color: #aaa;
+  letter-spacing: 3px;
+  font-weight: 800;
+  font-size: 12px;
+}
+.portfolio-heading h2 {
+  font-size: clamp(42px, 7vw, 72px);
+  margin: 10px 0 12px;
+}
+.portfolio-heading h2 span { color: #4c9cff; }
+.portfolio-subtitle { color: #ddd; font-size: 18px; }
+.portfolio-filters {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 28px;
+}
+.filter {
+  border: 1px solid #3a3d43; background: transparent; color: white;
+  border-radius: 24px; padding: 11px 22px; margin: 0; cursor: pointer;
+}
+.filter.active { background: #2d83ff; border-color: #2d83ff; }
+.portfolio-grid {
+  max-width: 1250px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+}
+.portfolio-card h3 {
+  font-size: 16px; text-align: center; margin-top: 13px; font-weight: 500;
+}
+.before-after {
+  height: 240px; position: relative; overflow: hidden; border-radius: 15px;
+  background: #222; border: 1px solid #333;
+}
+.photo {
+  position: absolute; top: 0; bottom: 0; width: 50%; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.photo img { width: 200%; height: 100%; object-fit: cover; }
+.before-photo { left: 0; }
+.before-photo img { object-position: left center; }
+.after-photo { right: 0; }
+.after-photo img { object-position: right center; }
+.photo b {
+  position: absolute; top: 12px; z-index: 2; padding: 7px 13px;
+  border-radius: 18px; background: rgba(20,20,20,.78); font-size: 12px;
+  text-transform: uppercase;
+}
+.before-photo b { left: 12px; }
+.after-photo b { right: 12px; background: #2584ff; }
+.before-after::after {
+  content: "";
+  position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+  background: rgba(255,255,255,.9); transform: translateX(-50%);
+}
+.visual-pair .photo { font-size: 62px; }
+.visual-before { left: 0; background: linear-gradient(135deg,#8a8f94,#3e4448); filter: saturate(.45) brightness(.8); }
+.visual-after { right: 0; background: linear-gradient(135deg,#4c8dd8,#f19b48); }
+.visual-before b, .visual-after b { top: 12px; }
+@media (max-width: 850px) {
+  .portfolio-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .portfolio-grid { grid-template-columns: 1fr; }
+}
+
+
+.real-gallery-photo {
+  width: 200%;
+  height: 100%;
+  object-fit: cover;
+}
+.visual-pair .photo .real-gallery-photo {
+  width: 100%;
+}
+
+
+/* ===== EDIT LAB PRO UPGRADE ===== */
+:root{--ink:#0a0b0d;--muted:#6b7078;--line:#e7e8eb;--soft:#f6f7f9;--accent:#4f7cff;--accent2:#7c5cff;--max:1240px}
+html{scroll-padding-top:90px}body{background:#fff;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}.site-header{position:sticky;top:0;z-index:900;background:rgba(10,11,13,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.08);padding:17px max(5%,calc((100vw - var(--max))/2));}.logo{color:#fff;text-decoration:none;font-size:20px;letter-spacing:2.5px}.logo span{font-weight:900}.menu-shell{position:static}.menu-shell summary{list-style:none}.menu-shell summary::-webkit-details-marker{display:none}.site-header nav{display:none;position:absolute;right:max(5%,calc((100vw - var(--max))/2));top:72px;width:330px;background:rgba(12,14,19,.98);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:12px;box-shadow:0 25px 70px rgba(0,0,0,.35);backdrop-filter:blur(20px)}.menu-shell[open] nav{display:flex;flex-direction:column;gap:4px}.site-header nav a{margin:0;color:#d8dbe1;font-size:14px;padding:13px 14px;border-radius:12px;transition:.2s;text-decoration:none;display:flex;align-items:center;gap:12px}.site-header nav a:hover{color:#fff;background:rgba(255,255,255,.08);transform:translateX(2px)}.site-header nav a span{width:24px;color:#8fa8ff;font-size:12px;text-align:center}.site-header .nav-cta{margin-top:7px;background:#fff;color:#0a0b0d;font-weight:800;justify-content:center}.site-header .nav-cta:hover{background:#fff;color:#0a0b0d;transform:translateY(-1px)}.menu-toggle{display:flex;align-items:center;gap:8px;position:absolute;right:max(5%,calc((100vw - var(--max))/2));top:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);padding:10px 14px;margin:0;color:#fff;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer}.menu-heading{display:flex;justify-content:space-between;align-items:center;padding:12px 13px 10px;color:#fff;font-size:13px;font-weight:800;letter-spacing:.4px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:4px}
+.hero-pro{position:relative;min-height:690px;overflow:hidden;background:radial-gradient(circle at 75% 30%,rgba(79,124,255,.25),transparent 28%),linear-gradient(135deg,#090a0d 0%,#11131a 55%,#0b0d12 100%);color:#fff;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:90px max(5%,calc((100vw - var(--max))/2));}.hero-content-pro{position:relative;z-index:2;max-width:720px}.eyebrow-pro{font-size:11px;letter-spacing:3px;font-weight:900;color:#aeb4c0;margin-bottom:18px}.eyebrow-pro.dark{color:#7c8290}.hero-pro h1{font-size:clamp(48px,6.2vw,86px);line-height:.98;letter-spacing:-3px;margin-bottom:24px}.hero-pro h1 span,.section-head h2 span{background:linear-gradient(90deg,#fff,#9cb5ff);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-pro p{font-size:19px;color:#c3c7d0;max-width:650px;margin-bottom:30px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap}.btn{transition:transform .2s,box-shadow .2s}.btn:hover{transform:translateY(-2px)}.btn-primary{background:linear-gradient(135deg,#fff,#dfe6ff);color:#0b0d12;box-shadow:0 12px 30px rgba(0,0,0,.22)}.btn-ghost{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18)}.hero-proof{margin-top:28px;color:#8e95a2;font-size:12px;display:flex;gap:11px;flex-wrap:wrap}.hero-proof span:first-child{color:#86a6ff}.hero-visual{height:440px;position:relative}.visual-card{position:absolute;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 80px rgba(0,0,0,.35);border-radius:22px}.card-back{width:270px;height:340px;right:0;top:35px;background:linear-gradient(145deg,#2d3760,#121520);transform:rotate(8deg);padding:30px;color:#9caeff}.card-back span{font-size:11px;letter-spacing:3px}.card-back strong{display:block;font-size:45px;line-height:1;margin-top:170px;color:#fff}.card-main{width:330px;height:390px;right:70px;top:15px;background:linear-gradient(145deg,#20242f,#0e1015);padding:18px;transform:rotate(-4deg);overflow:hidden}.visual-top{display:flex;gap:6px}.dot{width:7px;height:7px;border-radius:50%;background:#777}.visual-lines{margin-top:75px}.visual-lines i{display:block;height:10px;background:#343a48;border-radius:8px;margin:12px 0;width:78%}.visual-lines i:nth-child(2){width:56%}.visual-lines i:nth-child(3){width:67%}.visual-block{height:135px;border-radius:14px;background:linear-gradient(135deg,#667cff,#a85dff);margin:25px 0}.visual-lines.small{margin-top:0}.visual-lines.small i{height:7px;margin:8px 0}.floating-badge{position:absolute;bottom:15px;left:10px;background:#fff;color:#111;padding:12px 16px;border-radius:14px;font-size:12px;font-weight:900;box-shadow:0 15px 35px rgba(0,0,0,.25)}.hero-glow{position:absolute;border-radius:50%;filter:blur(2px);pointer-events:none}.glow-one{width:300px;height:300px;background:#315dff;opacity:.13;right:18%;top:8%}.glow-two{width:180px;height:180px;background:#a85dff;opacity:.12;right:2%;bottom:8%}
+.trust-strip{display:grid;grid-template-columns:repeat(4,1fr);max-width:var(--max);margin:-1px auto 0;padding:26px 5%;border-bottom:1px solid var(--line);gap:20px}.trust-strip div{display:flex;flex-direction:column}.trust-strip strong{font-size:14px}.trust-strip span{font-size:12px;color:var(--muted)}
+.services-pro,.packages-section,.individual-section,.info-section{max-width:var(--max);margin:auto}.services-pro{padding:105px 5%}.section-head{display:flex;justify-content:space-between;gap:60px;align-items:end;margin-bottom:45px}.section-head h2{font-size:clamp(40px,5vw,64px);line-height:1;letter-spacing:-2px}.section-head p{max-width:420px;color:var(--muted);font-size:16px}.section-head.compact{padding-top:15px}.section-title{display:none}.service-grid-pro{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.service-pro{position:relative;padding:30px;border:1px solid var(--line);border-radius:22px;background:#fff;min-height:280px;transition:.25s}.service-pro:hover{transform:translateY(-5px);box-shadow:0 18px 50px rgba(10,20,40,.09)}.service-pro.featured{background:#0c0e13;color:#fff;border-color:#252a35}.service-number{position:absolute;top:20px;right:20px;font-size:11px;color:#9aa0aa}.service-icon-pro{font-size:28px;margin-bottom:55px}.service-pro h3{font-size:22px;margin-bottom:10px}.service-pro p{color:var(--muted);font-size:14px;min-height:65px}.featured p{color:#aeb4c0}.service-pro a{color:inherit;text-decoration:none;font-weight:800;font-size:13px}.service-tag{position:absolute;left:30px;top:25px;background:#4f7cff;color:#fff;padding:5px 9px;border-radius:999px;font-size:9px;font-weight:900;letter-spacing:1px}
+.packages-section{padding:105px 5%;background:var(--soft);max-width:none}.packages-section>.section-head,.packages-section>.packages-grid{max-width:var(--max);margin-left:auto;margin-right:auto}.packages-grid{grid-template-columns:repeat(3,1fr)}.package-card{position:relative;border-color:#e1e3e8;border-radius:22px;padding:34px;box-shadow:none;transition:.2s}.package-card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(20,25,35,.08)}.package-card h3{font-size:31px}.package-card p{font-size:14px}.web-service-section{padding:105px 5%;background:#fff}.web-service-card{max-width:var(--max);margin:auto;background:linear-gradient(135deg,#0c0e13,#171b26);color:#fff;border:0;border-radius:28px;padding:50px;box-shadow:0 25px 70px rgba(0,0,0,.12)}.web-service-card h2{font-size:48px}.web-service-card ul{color:#bfc5d0}.service-main-cta{margin-top:24px}.individual-section{padding:105px 5%}.individual-section .packages-grid{grid-template-columns:repeat(4,1fr)}
+.info-section{padding:105px 5%}.info-section .steps-grid{grid-template-columns:repeat(3,1fr)}.step-card,.faq-card{border-color:var(--line);border-radius:20px;box-shadow:none}.step-card span{color:#4f7cff}.faq-question{width:100%;margin:0;padding:0;background:none;color:inherit;text-align:left;display:flex;justify-content:space-between;font-size:16px}.faq-question span{font-size:22px}.faq-card p{display:block;margin-top:15px}.faq-card.open p{display:block}
+.portfolio-section{padding:110px 5%;background:#080a0e}.portfolio-heading h2{letter-spacing:-2px}.portfolio-grid{max-width:var(--max)}.filter{transition:.2s}.filter:hover{border-color:#6d7a99}.portfolio-card{transition:.2s}.portfolio-card:hover{transform:translateY(-4px)}
+.services-overlay{display:none;position:fixed;inset:0;z-index:1200;background:rgba(5,7,10,.72);backdrop-filter:blur(12px);padding:8vh 5%;overflow:auto}.services-overlay.visible{display:block}.services-panel{position:relative;max-width:1000px;margin:auto;background:#fff;border-radius:28px;padding:50px;box-shadow:0 35px 100px rgba(0,0,0,.3)}.services-close{position:absolute;right:20px;top:18px;margin:0;width:42px;height:42px;border-radius:50%;padding:0;font-size:25px;background:#f1f2f4;color:#111}.services-panel h2{font-size:48px;margin-bottom:30px}
+footer{padding:35px 5%;background:#080a0e;color:#858b96;border-top:1px solid #191c23}
+@media(max-width:900px){.reviews-grid{grid-template-columns:1fr 1fr}}@media(max-width:900px){.hero-pro{grid-template-columns:1fr;min-height:auto;padding-top:80px}.hero-visual{height:380px;max-width:500px;width:100%;margin:auto}.service-grid-pro{grid-template-columns:1fr 1fr}.packages-grid,.individual-section .packages-grid{grid-template-columns:1fr 1fr}.trust-strip{grid-template-columns:1fr 1fr}.section-head{display:block}.section-head p{margin-top:20px}.info-section .steps-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.reviews-grid{grid-template-columns:1fr}}@media(max-width:700px){.site-header{padding:14px 5%}.menu-toggle{right:5%;top:10px}.site-header nav{right:5%;top:62px;width:min(330px,90vw)}.hero-pro{padding:70px 5% 45px}.hero-pro h1{font-size:48px;letter-spacing:-2px}.hero-pro p{font-size:16px}.hero-visual{height:300px}.card-main{width:250px;height:290px;right:35px}.card-back{width:210px;height:250px}.card-back strong{margin-top:115px;font-size:32px}.visual-block{height:90px;margin:18px 0}.trust-strip{padding:22px 5%;gap:18px}.services-pro,.individual-section,.info-section{padding:75px 5%}.service-grid-pro,.packages-grid,.individual-section .packages-grid{grid-template-columns:1fr}.service-pro{min-height:235px}.service-icon-pro{margin-bottom:35px}.web-service-section{padding:75px 5%}.web-service-card{padding:32px 25px}.web-service-card h2{font-size:38px}.portfolio-section{padding:80px 5%}.portfolio-grid{grid-template-columns:1fr}.services-panel{padding:35px 24px}.services-panel h2{font-size:38px}}
+
+
+.web-process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:38px}
+.process-card{border:1px solid var(--line);border-radius:24px;background:#fff;overflow:hidden;box-shadow:0 18px 50px rgba(10,20,40,.07);transition:.25s}
+.process-card:hover{transform:translateY(-6px);box-shadow:0 25px 65px rgba(10,20,40,.12)}
+.browser-mockup{margin:16px;border:1px solid #dfe3e8;border-radius:14px;overflow:hidden;background:#f7f8fa}
+.browser-bar{height:29px;background:#eef0f3;display:flex;align-items:center;gap:6px;padding:0 10px;color:#777;font-size:8px}
+.browser-bar i{width:6px;height:6px;border-radius:50%;background:#b7bcc4;display:block}.browser-bar span{margin-left:6px}
+.mock-content{height:185px;padding:15px;background:linear-gradient(135deg,#fff,#f1f3f6)}
+.mock-nav{display:flex;justify-content:space-between;align-items:center;font-size:8px}.mock-nav b{font-size:12px}.mock-nav small{color:#777;font-size:6px}
+.mock-hero{display:flex;justify-content:space-between;align-items:center;height:115px}.mock-hero strong{font-size:22px;line-height:1.02;display:block}.mock-hero em{font-style:normal;font-size:6px;color:#777;letter-spacing:1px}.mock-box{width:75px;height:75px;border-radius:16px;background:linear-gradient(135deg,#15171a,#9da3aa)}
+.mock-lines{display:flex;gap:5px}.mock-lines b{height:5px;border-radius:5px;background:#d7dbe0;width:25%}
+.mock-content.second{background:#101216;padding:12px}.mock-dashboard{height:100%;display:flex;gap:8px}.dash-side{width:22%;border-radius:6px;background:#20242b}.dash-main{flex:1;padding:5px}.dash-main>b{height:7px;width:45%;display:block;background:#555d68;margin-bottom:8px;border-radius:4px}.dash-cards{display:flex;gap:5px;margin-top:15px}.dash-cards i{height:75px;flex:1;border-radius:7px;background:#252a32;border:1px solid #343a44}
+.mock-content.third{padding:0;background:linear-gradient(140deg,#16191d,#4b525b)}.final-site{height:100%;padding:20px;color:#fff;display:flex;flex-direction:column;justify-content:center;gap:8px}.final-site b{font-size:8px;letter-spacing:2px}.final-site strong{font-size:18px;line-height:1.1}.final-site button{width:max-content;border:0;border-radius:8px;padding:6px 10px;font-size:6px}
+.process-info{display:flex;gap:15px;padding:0 22px 24px}.process-info>span{font-size:11px;font-weight:800;color:#8a9098}.process-info h3{margin:0 0 6px;font-size:17px}.process-info p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+@media(max-width:900px){.web-process-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.web-process-grid{grid-template-columns:1fr}}
+
+
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:38px}
+.portfolio-item{text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 15px 45px rgba(10,20,40,.06);transition:.25s}
+.portfolio-item:hover{transform:translateY(-6px);box-shadow:0 25px 60px rgba(10,20,40,.12)}
+.portfolio-image{height:260px;position:relative;overflow:hidden}
+.edit-img{display:grid;grid-template-columns:1fr 1fr;background:linear-gradient(135deg,#73777d,#17191c)}
+.edit-img:before{content:"";position:absolute;inset:0;background:linear-gradient(130deg,transparent 40%,rgba(255,255,255,.18) 50%,transparent 60%)}
+.photo-before,.photo-after{align-self:end;margin:0 0 22px 20px;color:#fff;font-size:10px;letter-spacing:2px;font-weight:800;z-index:1}.photo-after{margin-left:0}
+.design-img{background:linear-gradient(135deg,#17191d,#777e87);display:grid;place-items:center}.design-poster{width:175px;height:210px;padding:22px;color:#fff;border:1px solid rgba(255,255,255,.4);display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 20px 35px #0005}.design-poster b{font-size:9px;letter-spacing:2px}.design-poster strong{font-size:28px;line-height:.9}.design-poster small{font-size:7px;letter-spacing:2px}
+.web-img{background:#e8eaed;display:grid;place-items:center}.mini-browser{width:75%;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 15px 35px #0002}.mini-top{height:22px;background:#dfe2e6;padding:6px;font-size:6px;color:#666}.mini-top em{font-style:normal;margin-left:12px}.mini-site{height:175px;background:linear-gradient(135deg,#14171b,#555c65);color:#fff;padding:24px;display:flex;flex-direction:column;justify-content:center;gap:9px}.mini-site b{font-size:8px;letter-spacing:2px}.mini-site strong{font-size:24px;line-height:1}.mini-site button,.big-demo button{width:max-content;border:0;border-radius:8px;padding:7px 11px;font-size:7px}
+.social-img{background:#dfe2e6;display:grid;place-items:center}.phone{width:130px;height:225px;background:#15171b;border:5px solid #0c0d0f;border-radius:22px;padding:20px 10px;color:#fff;box-shadow:0 20px 35px #0004}.phone-head{font-size:7px;text-align:center;margin-bottom:18px}.post-square{height:120px;background:linear-gradient(145deg,#555c65,#16181b);display:grid;place-items:center;text-align:center;font-size:15px;font-weight:800}.post-lines{font-size:6px;margin-top:12px;color:#aaa}
+.portfolio-item>div:last-child{padding:20px 22px 23px}.portfolio-item>div:last-child span{font-size:10px;color:#888;font-weight:800}.portfolio-item h3{margin:7px 0 4px;font-size:19px}.portfolio-item p{margin:0;color:var(--muted);font-size:13px}
+.portfolio-lightbox{position:fixed;inset:0;background:rgba(8,10,13,.86);z-index:1000;display:none;place-items:center;padding:30px}.portfolio-lightbox:target{display:grid}.close-lightbox{position:absolute;top:22px;right:28px;color:#fff;text-decoration:none;font-size:38px;font-weight:200}.big-demo{width:min(850px,90vw);height:min(620px,80vh);border-radius:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;box-shadow:0 30px 100px #0008}.big-demo>b{position:absolute;top:15%;font-size:11px;letter-spacing:3px}.edit-big{background:linear-gradient(120deg,#747980 0 50%,#17191c 50%)}.edit-big div{display:flex;gap:120px;font-size:14px;letter-spacing:3px}.design-big{background:linear-gradient(135deg,#15171a,#777e87);gap:18px}.design-big strong{font-size:55px;line-height:.9;text-align:center}.web-big{background:linear-gradient(135deg,#101216,#555d66);gap:18px}.web-big strong{font-size:55px;line-height:1}.social-big{background:linear-gradient(145deg,#17191d,#626a74);gap:20px}.social-big strong{font-size:60px;text-align:center;line-height:.9}
+@media(max-width:700px){.portfolio-grid{grid-template-columns:1fr}.portfolio-image{height:230px}.big-demo strong{font-size:38px}.edit-big div{gap:40px}}
+
+
+.portfolio-filters .filter{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+html{scroll-behavior:smooth}
+.highlight-link{display:block;text-decoration:none;color:inherit;cursor:pointer}.highlight-link span{display:inline-block;margin-top:12px;font-weight:800;font-size:13px}</style>
+
+<style>
+.pro-portfolio-grid{grid-template-columns:repeat(2,1fr)!important;gap:28px!important}
+.pro-project{background:#101217!important;border:1px solid #272b35!important;border-radius:24px!important;overflow:hidden;padding:0!important;box-shadow:0 18px 55px rgba(0,0,0,.18)!important}
+.pro-project:hover{transform:translateY(-7px)!important;box-shadow:0 28px 70px rgba(0,0,0,.28)!important}
+.web-mockup{height:350px;position:relative;overflow:hidden;padding:0 24px;font-family:Inter,system-ui,sans-serif}
+.mock-browser{height:38px;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,.1);font-size:9px;color:#8e95a2}
+.mock-browser i{width:7px;height:7px;border-radius:50%;background:#5b606b}.mock-browser span{margin-left:auto;opacity:.65}
+.mock-nav{height:50px;display:flex;align-items:center;justify-content:space-between;font-size:10px;position:relative;z-index:3}.mock-nav b{letter-spacing:2px}.mock-nav em{font-style:normal;opacity:.6}
+.mockup-dark{background:linear-gradient(135deg,#0a0c10,#171b2a)}.mockup-dark .mock-nav{color:#fff}.mock-hero{position:relative;z-index:2;padding-top:42px}.mock-hero small,.light-hero small,.store-hero small{font-size:8px;letter-spacing:2px;color:#9aa3b5}.mock-hero strong{display:block;font-size:43px;line-height:.92;letter-spacing:-2px;color:#fff;margin:13px 0 22px}.mock-hero strong span{color:#91aaff}.mock-hero button,.light-hero button,.store-hero button{border:0;border-radius:999px;padding:9px 14px;font-size:9px;font-weight:800}.mock-shape{position:absolute;border-radius:50%;filter:blur(2px);opacity:.75}.shape-blue{width:180px;height:180px;background:#315dff;right:-35px;bottom:-45px}.shape-purple{width:120px;height:120px;background:#a85dff;right:100px;bottom:20px;opacity:.45}
+.mockup-light{background:#f3f0e9;color:#171717}.mockup-light .mock-browser{border-color:rgba(0,0,0,.1);color:#777}.mockup-light .mock-nav{color:#171717}.light-hero{padding-top:50px}.light-hero strong{display:block;font-family:Georgia,serif;font-size:45px;line-height:.9;font-weight:500;letter-spacing:-2px;margin:13px 0 20px}.light-hero strong span{font-style:italic}.light-hero button{background:#171717;color:#fff}.arch-card{position:absolute;right:24px;bottom:25px;width:135px;height:165px;background:linear-gradient(145deg,#d4c4a4,#7d7669);padding:13px;color:#fff;display:flex;flex-direction:column;justify-content:space-between}.arch-card b{font-size:9px}.arch-card span{font-family:Georgia,serif;font-size:17px}
+.mockup-store{background:#e7e7e4;color:#111}.mockup-store .mock-browser{border-color:rgba(0,0,0,.12);color:#777}.mockup-store .mock-nav{color:#111}.store-hero{display:flex;justify-content:space-between;padding-top:45px}.store-hero strong{display:block;font-size:37px;line-height:.9;letter-spacing:-2px;margin:12px 0 18px}.store-hero strong span{font-style:italic}.store-hero button{background:#111;color:#fff}.product-card{width:155px;height:220px;background:linear-gradient(145deg,#d7d0c5,#8d8b84);padding:12px;display:flex;flex-direction:column;justify-content:space-between}.product-circle{width:105px;height:105px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f5f3ee,#77746e);margin:auto}.product-card b{font-size:8px;letter-spacing:1px}
+.creative-visual{height:350px;position:relative;overflow:hidden}.photo-visual{background:radial-gradient(circle at 60% 35%,#d9c2a0 0 12%,transparent 13%),linear-gradient(135deg,#252936,#08090c 55%,#4b3b2e)}.photo-glow{position:absolute;width:230px;height:230px;border-radius:50%;background:#c9935a;filter:blur(60px);opacity:.45;right:30px;top:20px}.edit-label{position:absolute;left:24px;top:24px;font-size:8px;letter-spacing:2px;color:#d5d8df}.photo-subject{position:absolute;left:24px;bottom:28px;font-size:42px;line-height:.88;font-weight:900;color:#fff;letter-spacing:-2px}
+.poster-visual{background:#e9e3d7;color:#111;padding:28px}.poster-grid{position:absolute;inset:0;background:linear-gradient(90deg,transparent 49%,rgba(0,0,0,.08) 50%,transparent 51%),linear-gradient(transparent 49%,rgba(0,0,0,.08) 50%,transparent 51%);background-size:70px 70px}.poster-visual small{position:relative;font-size:8px;letter-spacing:2px}.poster-visual strong{position:absolute;left:28px;bottom:55px;font-size:55px;line-height:.82;letter-spacing:-3px}.poster-visual em{position:absolute;right:28px;bottom:28px;font-size:8px;font-style:normal}
+.social-visual{background:linear-gradient(145deg,#171a23,#353c58);color:#fff;padding:24px}.social-top{font-size:9px;letter-spacing:2px;display:flex;justify-content:space-between}.social-top span{opacity:.5}.social-title{position:absolute;left:24px;top:105px;font-size:43px;line-height:.9;font-weight:900;letter-spacing:-2px}.social-title span{color:#9eb3ff}.social-stat{position:absolute;right:25px;bottom:25px;border-left:1px solid rgba(255,255,255,.25);padding-left:15px}.social-stat b{display:block;font-size:24px}.social-stat small{font-size:7px;letter-spacing:1px;opacity:.6}
+.project-info{display:flex;align-items:center;justify-content:space-between;padding:22px 25px 8px;color:#fff}.project-info span{font-size:8px;letter-spacing:2px;color:#8ea8ff;font-weight:800}.project-info h3{margin:6px 0 0;font-size:21px}.project-info>b{font-size:11px;color:#676d79}.pro-project>p{padding:0 25px 25px;margin:0;color:#969ca8;font-size:12px;max-width:580px}
+@media(max-width:700px){.pro-portfolio-grid{grid-template-columns:1fr!important}.web-mockup,.creative-visual{height:300px}.mock-hero strong{font-size:36px}.light-hero strong{font-size:38px}.store-hero strong{font-size:32px}.product-card{width:125px;height:180px}.poster-visual strong{font-size:43px}.social-title{font-size:36px}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo" href="#top" aria-label="EDIT LAB inicio"><span>EDIT</span> LAB</a>
+  <details class="menu-shell">
+    <summary class="menu-toggle" aria-label="Abrir menú">☰ <span>Menú</span></summary>
+  <nav id="mainNav" aria-label="Menú principal">
+    <div class="menu-heading">Explora EDIT LAB</div>
+    <a href="#top"><span>⌂</span> Inicio</a>
+    <a href="#servicios"><span>✦</span> Servicios</a>
+    <a href="#paquetes"><span>▣</span> Paquetes y precios</a>
+    <a href="#portfolio"><span>◈</span> Ejemplos / Portafolio</a>
+    <a href="#como-funciona"><span>01</span> Cómo funciona</a>
+    <a href="#preguntas"><span>?</span> Preguntas frecuentes</a>
+    <a href="#contacto"><span>→</span> Contacto</a>
+    <a class="nav-cta" href="https://wa.me/525611733444?text=Hola%2C%20necesito%20un%20dise%C3%B1o%20y%20quisiera%20solicitarlo%20con%20prioridad." target="_blank" rel="noopener">Cotizar proyecto ↗</a>
+  </nav>
+  </details>
+</header>
+
+<main id="top">
+  <section class="hero-pro">
+    <div class="hero-glow glow-one"></div><div class="hero-glow glow-two"></div>
+    <div class="hero-content-pro">
+      <div class="eyebrow-pro">ESTUDIO DIGITAL · EDIT LAB</div>
+      <h1>Diseños que hacen que tu idea <span>se vea increíble.</span></h1>
+      <p>Edición de fotos, diseño gráfico y páginas web hechas a la medida. Rápido, claro y con un acabado profesional.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://wa.me/525611733444?text=Hola%2C%20quiero%20cotizar%20un%20proyecto%20con%20EDIT%20LAB" target="_blank" rel="noopener">Empezar un proyecto ↗</a>
+        <a class="btn btn-ghost" href="#portfolio">Ver trabajos</a>
+      </div>
+      <div class="hero-proof"><span>✦</span> Diseño personalizado <span>•</span> Entrega digital <span>•</span> Atención directa</div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="visual-card card-back"><span>WEB</span><strong>Diseño</strong></div>
+      <div class="visual-card card-main"><div class="visual-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="visual-lines"><i></i><i></i><i></i></div><div class="visual-block"></div><div class="visual-lines small"><i></i><i></i></div></div>
+      <div class="floating-badge">✦  EDIT LAB</div>
+    </div>
+  </section>
+  <section class="trust-strip"><div><strong>Fotos</strong><span>Edición y retoque</span></div><div><strong>Web</strong><span>Diseño responsive</span></div><div><strong>Diseño</strong><span>Identidad y contenido</span></div><div><strong>A medida</strong><span>Proyectos especiales</span></div></section>
+</main>
+
+<div id="servicesOverlay" class="services-overlay">
+  <div class="services-panel">
+        <button class="services-close" id="servicesClose" aria-label="Cerrar">×</button><h2>Servicios</h2>
+    <div class="cards">
+      <div class="card"><h3>Fotos</h3><p>Edición y cambios en imágenes.</p></div>
+      <div class="card"><h3>Páginas web</h3><p>Cambios y modificaciones visuales.</p></div>
+      <div class="card"><h3>Diseño</h3><p>Diseños y ajustes personalizados.</p></div>
+      <div class="card"><h3>Otros</h3><p>Cuéntanos qué necesitas editar.</p></div>
+    </div>
+  </div>
+</div>
+
+
+
+<section id="servicios" class="services-pro">
+  <div class="section-head"><div><div class="eyebrow-pro dark">LO QUE HACEMOS</div><h2>Un solo lugar para<br><span>crear algo grande.</span></h2></div><p>Desde una edición rápida hasta una página completa. Elegimos el nivel de trabajo que necesita tu proyecto.</p></div>
+  <div class="service-grid-pro">
+    <article class="service-pro"><div class="service-number">01</div><div class="service-icon-pro">◈</div><h3>Edición de fotos</h3><p>Retoque, color, recortes, composiciones y cambios visuales.</p><a href="#individuales">Ver precios →</a></article>
+    <article class="service-pro featured"><div class="service-number">02</div><div class="service-icon-pro">⌘</div><h3>Páginas web</h3><p>Diseños modernos, adaptados a celular y pensados para convertir visitas en clientes.</p><a href="#web-service">Conocer servicio →</a><span class="service-tag">MÁS PEDIDO</span></article>
+    <article class="service-pro"><div class="service-number">03</div><div class="service-icon-pro">✦</div><h3>Diseño gráfico</h3><p>Posts, anuncios, portadas, presentaciones y piezas personalizadas.</p><a href="#contacto">Solicitar →</a></article>
+    <article class="service-pro"><div class="service-number">04</div><div class="service-icon-pro">＋</div><h3>Proyecto especial</h3><p>¿Tienes algo diferente? Cuéntanos la idea y armamos una propuesta.</p><a href="#contacto">Hablar del proyecto →</a></article>
+  </div>
+</section>
+
+<section id="paquetes" class="packages-section">
+  <div class="section-head compact"><div><div class="eyebrow-pro dark">PRECIOS CLAROS</div><h2>Elige cómo quieres <span>trabajar.</span></h2></div><p>Precios de referencia. Para proyectos especiales te damos una cotización personalizada.</p></div>
+  <h2 class="section-title">Paquetes</h2>
+  <div class="packages-grid">
+    <div class="package-card">
+      <h3>$500/mes</h3>
+      <p>5 cambios</p>
+    </div>
+    <div class="package-card">
+      <h3>$1,000/mes</h3>
+      <p>15 cambios</p>
+    </div>
+    <div class="package-card">
+      <h3>$2,000/mes</h3>
+      <p>30 cambios</p>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="web-service" class="web-service-section">
+  <div class="web-service-card">
+    <div class="service-icon">🌐</div>
+    <h2>Página web</h2>
+    <div class="web-price">Desde $2,500</div>
+    <ul>
+      <li>Diseño personalizado</li>
+      <li>Adaptada para celular</li>
+      <li>Textos e imágenes</li>
+      <li>Botones y secciones</li>
+      <li>Publicación de la página</li>
+    </ul>
+    <a class="btn btn-primary service-main-cta" href="https://wa.me/525611733444?text=Hola%2C%20quiero%20cotizar%20una%20p%C3%A1gina%20web%20con%20EDIT%20LAB" target="_blank" rel="noopener">Cotizar mi página ↗</a>
+  </div>
+</section>
+
+<section id="individuales" class="individual-section">
+  <h2 class="section-title">Ediciones individuales</h2>
+  <div class="packages-grid">
+    <div class="package-card"><h3>1 cambio</h3><p>$120</p></div>
+    <div class="package-card"><h3>3 cambios</h3><p>$350</p></div>
+    <div class="package-card"><h3>5 cambios</h3><p>$550</p></div>
+    <div class="package-card"><h3>10 cambios</h3><p>$1,000</p></div>
+  </div>
+</section>
+
+
+<section id="como-funciona" class="info-section">
+  <h2 class="section-title">Cómo funciona</h2>
+  <div class="steps-grid">
+    <div class="step-card"><span>01</span><h3>Elige tu servicio</h3><p>Selecciona la edición o servicio que necesitas.</p></div>
+    <div class="step-card"><span>02</span><h3>Manda tu archivo</h3><p>Envíanos lo que quieres editar y explica los cambios.</p></div>
+    <div class="step-card"><span>03</span><h3>Recibe tu resultado</h3><p>Trabajamos en tu pedido y te entregamos el resultado.</p></div>
+  </div>
+</section>
+
+
+
+<section id="portfolio" class="portfolio-section">
+  <div class="portfolio-heading">
+    <p>PORTAFOLIO EDIT LAB</p>
+    <h2>PROYECTOS QUE <span>SE VEN PRO.</span></h2>
+    <div class="portfolio-subtitle">Ejemplos de edición, diseño y páginas web creadas con una presentación premium.</div>
+    <div class="portfolio-filters">
+      <a class="filter active" href="#proyectos-todos">Todos</a>
+      <a class="filter" href="#proyecto-fotos">Fotos</a>
+      <a class="filter" href="#proyecto-disenos">Diseños</a>
+      <a class="filter" href="#proyecto-web">Páginas web</a>
+      <a class="filter" href="#proyecto-creativo">Creativo</a>
+    </div>
+  </div>
+
+  <div id="proyectos-todos" class="portfolio-grid pro-portfolio-grid">
+    <article id="proyecto-web" class="portfolio-card pro-project">
+      <div class="web-mockup mockup-dark">
+        <div class="mock-browser"><i></i><i></i><i></i><span>nexa.studio</span></div>
+        <div class="mock-nav"><b>NEXA</b><em>Work &nbsp; Services &nbsp; Contact</em></div>
+        <div class="mock-hero"><small>DIGITAL EXPERIENCE STUDIO</small><strong>WE BUILD<br><span>WHAT'S NEXT.</span></strong><button>Explore work ↗</button></div>
+        <div class="mock-shape shape-blue"></div><div class="mock-shape shape-purple"></div>
+      </div>
+      <div class="project-info"><div><span>PÁGINA WEB</span><h3>Landing page premium</h3></div><b>01</b></div>
+      <p>Diseño moderno con jerarquía visual, navegación limpia y una llamada a la acción clara.</p>
+    </article>
+
+    <article class="portfolio-card pro-project">
+      <div class="web-mockup mockup-light">
+        <div class="mock-browser"><i></i><i></i><i></i><span>atelier.mx</span></div>
+        <div class="mock-nav"><b>ATELIER</b><em>Studio &nbsp; Projects &nbsp; About</em></div>
+        <div class="mock-hero light-hero"><small>CREATIVE ARCHITECTURE</small><strong>Spaces<br>with <span>identity.</span></strong><button>View projects</button></div>
+        <div class="arch-card"><b>01</b><span>Residential<br>Collection</span></div>
+      </div>
+      <div class="project-info"><div><span>PÁGINA WEB</span><h3>Web para arquitectura</h3></div><b>02</b></div>
+      <p>Una interfaz editorial y elegante pensada para mostrar proyectos de alto nivel.</p>
+    </article>
+
+    <article class="portfolio-card pro-project">
+      <div class="web-mockup mockup-store">
+        <div class="mock-browser"><i></i><i></i><i></i><span>north.co</span></div>
+        <div class="mock-nav"><b>NORTH</b><em>New arrivals &nbsp; Collections &nbsp; Bag (0)</em></div>
+        <div class="store-hero"><div><small>SPRING / SUMMER 26</small><strong>FORM<br>MEETS<br><span>FUNCTION.</span></strong><button>Shop collection</button></div><div class="product-card"><div class="product-circle"></div><b>NORTH / 01</b></div></div>
+      </div>
+      <div class="project-info"><div><span>PÁGINA WEB</span><h3>Tienda online</h3></div><b>03</b></div>
+      <p>Concepto de e-commerce con producto protagonista y estructura enfocada en conversión.</p>
+    </article>
+
+    <article id="proyecto-fotos" class="portfolio-card pro-project photo-project">
+      <div class="creative-visual photo-visual"><div class="photo-glow"></div><div class="edit-label">BEFORE → AFTER</div><div class="photo-subject">CREATIVE<br>RETOUCH</div></div>
+      <div class="project-info"><div><span>EDICIÓN</span><h3>Retoque fotográfico</h3></div><b>04</b></div>
+      <p>Corrección de color, iluminación y retoque para conseguir un acabado limpio y profesional.</p>
+    </article>
+
+    <article id="proyecto-disenos" class="portfolio-card pro-project photo-project">
+      <div class="creative-visual poster-visual"><div class="poster-grid"></div><small>EDIT LAB / 026</small><strong>VISUAL<br>IDENTITY</strong><em>Brand design · Social · Digital</em></div>
+      <div class="project-info"><div><span>DISEÑO</span><h3>Identidad visual</h3></div><b>05</b></div>
+      <p>Composición gráfica para redes, campañas y piezas digitales con una identidad consistente.</p>
+    </article>
+
+    <article id="proyecto-creativo" class="portfolio-card pro-project photo-project">
+      <div class="creative-visual social-visual"><div class="social-top">EDIT LAB <span>● ● ●</span></div><div class="social-title">MAKE IT<br><span>STAND OUT.</span></div><div class="social-stat"><b>+240%</b><small>VISUAL IMPACT</small></div></div>
+      <div class="project-info"><div><span>CREATIVO</span><h3>Contenido para redes</h3></div><b>06</b></div>
+      <p>Piezas visuales diseñadas para destacar en feeds, anuncios y contenido digital.</p>
+    </article>
+  </div>
+</section>
+
+
+
+<section id="opiniones" class="info-section">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow-pro dark">OPINIONES</div>
+      <h2>Lo que dicen <span>nuestros clientes</span></h2>
+    </div>
+    <p>Algunas frases de ejemplo para mostrar cómo se verá esta sección. Puedes reemplazarlas por reseñas reales cuando las tengas.</p>
+  </div>
+
+  <div class="reviews-grid">
+    <article class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p>“Muy bueno, quedó excelente y exactamente como lo quería. Lo recomiendo muchísimo.”</p>
+      <strong>Cliente de EDIT LAB</strong>
+    </article>
+
+    <article class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p>“Excelente trabajo y muy buena atención. El resultado se ve súper profesional. 100% recomendado.”</p>
+      <strong>Cliente de EDIT LAB</strong>
+    </article>
+
+    <article class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p>“Me encantó cómo quedó. Todo se ve limpio, moderno y profesional. Definitivamente lo recomiendo.”</p>
+      <strong>Cliente de EDIT LAB</strong>
+    </article>
+  </div>
+</section>
+
+<section id="urgente" class="info-section">
+  <h2 class="section-title">Edición urgente</h2>
+  <a class="highlight-box highlight-link" href="https://wa.me/525611733444?text=Hola%2C%20necesito%20un%20dise%C3%B1o%20y%20quisiera%20solicitarlo%20con%20prioridad." target="_blank" rel="noopener"><h3>¿Lo necesitas rápido?</h3><p>Opción para solicitar que tu edición tenga prioridad.</p><span>Solicitar por WhatsApp →</span></a>
+</section>
+
+<section id="trabajos" class="info-section">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow-pro dark">PORTAFOLIO</div>
+      <h2>Ejemplos de <span>nuestro trabajo</span></h2>
+    </div>
+    <p>Haz clic en cualquier proyecto para verlo en grande.</p>
+  </div>
+
+  <div class="portfolio-grid">
+    <a class="portfolio-item" href="editlab_portfolio_fotos/edicion-fotos.jpg" target="_blank">
+      <div class="portfolio-image edit-img">
+        <div class="photo-before">ANTES</div><div class="photo-after">DESPUÉS</div>
+      </div>
+      <div><span>01</span><h3>Edición de fotos</h3><p>Retoque y mejora visual</p></div>
+    </a>
+
+    <a class="portfolio-item" href="editlab_portfolio_fotos/disenos.jpg" target="_blank">
+      <div class="portfolio-image design-img">
+        <div class="design-poster"><b>EDIT LAB</b><strong>CREATIVE<br>DESIGN</strong><small>IDENTIDAD VISUAL</small></div>
+      </div>
+      <div><span>02</span><h3>Diseños</h3><p>Diseño gráfico y piezas digitales</p></div>
+    </a>
+
+    <a class="portfolio-item" href="editlab_portfolio_fotos/paginas-web.jpg" target="_blank">
+      <div class="portfolio-image web-img">
+        <div class="mini-browser"><div class="mini-top">● ● ● <em>tu-marca.com</em></div><div class="mini-site"><b>MARCA</b><strong>Tu idea.<br>Hecha digital.</strong><button>VER PROYECTO</button></div></div>
+      </div>
+      <div><span>03</span><h3>Páginas web</h3><p>Webs modernas y profesionales</p></div>
+    </a>
+
+    <a class="portfolio-item" href="editlab_portfolio_fotos/contenido-redes.jpg" target="_blank">
+      <div class="portfolio-image social-img">
+        <div class="phone"><div class="phone-head">EDIT LAB</div><div class="post-square">NUEVO<br>PROYECTO</div><div class="post-lines">━━━━━━━━<br>━━━━━━</div></div>
+      </div>
+      <div><span>04</span><h3>Contenido para redes</h3><p>Posts y contenido visual</p></div>
+    </a>
+  </div></section>
+
+<section id="preguntas" class="info-section">
+  <h2 class="section-title">Preguntas frecuentes</h2>
+  <div class="faq-grid">
+    <div class="faq-card"><button class="faq-question" type="button">¿Cuánto tarda una edición?<span>+</span></button><p>El tiempo depende del tipo y dificultad del trabajo.</p></div>
+    <div class="faq-card"><button class="faq-question" type="button">¿Cómo envío mis archivos?<span>+</span></button><p>Puedes enviarlos por WhatsApp al contactar con EDIT LAB.</p></div>
+    <div class="faq-card"><button class="faq-question" type="button">¿Qué métodos de pago aceptan?<span>+</span></button><p>Aceptamos transferencia bancaria.</p></div>
+    <div class="faq-card"><button class="faq-question" type="button">¿Puedo pedir cambios adicionales?<span>+</span></button><p>Sí, podemos definirlos según el servicio contratado.</p></div>
+  </div>
+</section>
+
+<section id="contacto" class="info-section contact-section">
+  <h2 class="section-title">Contacto</h2>
+  <p>¿Tienes un proyecto? Contáctanos directamente por WhatsApp.</p>
+  <a class="btn" href="https://wa.me/525611733444?text=Hola%2C%20quiero%20solicitar%20una%20edici%C3%B3n" target="_blank" rel="noopener">Contactar por WhatsApp</a>
+</section>
+
+<footer>
+  EDIT LAB · Tu espacio de edición digital
+</footer>
+
+
+
+
+
+
+<script>
+  const servicesLink = document.getElementById('servicesLink');
+  const servicesPage = document.getElementById('servicesOverlay');
+  const backHome = document.getElementById('backHome');
+  if (servicesLink && servicesPage) servicesLink.addEventListener('click', function(e) { e.preventDefault(); servicesPage.classList.add('visible'); });
+  if (backHome && servicesPage) backHome.addEventListener('click', function() { servicesPage.classList.remove('visible'); });
+
+  const closeServices = document.getElementById('servicesClose');
+  if (closeServices && servicesPage) closeServices.addEventListener('click', () => servicesPage.classList.remove('visible'));
+
+  document.querySelectorAll('.faq-question').forEach(btn => btn.addEventListener('click', () => {
+    const card = btn.parentElement; const open = card.classList.toggle('open'); btn.querySelector('span').textContent = open ? '−' : '+';
+  }));
+
+  const filters = document.querySelectorAll('.portfolio-filters .filter');
+  const cards = document.querySelectorAll('.portfolio-card');
+  filters.forEach(filter => filter.addEventListener('click', () => {
+    filters.forEach(f => f.classList.remove('active')); filter.classList.add('active');
+    const chosen = filter.textContent.trim().toLowerCase();
+    cards.forEach(card => { const text = card.textContent.toLowerCase(); card.style.display = chosen === 'todos' || text.includes(chosen.replace('páginas web','web')) ? '' : 'none'; });
+  }));
+</script>
+
+
+</body>
+</html>
